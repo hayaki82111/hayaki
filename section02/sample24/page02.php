@@ -19,7 +19,7 @@
 <h2>Practice</h2>
 <pre>
     変数の値：<?php print($value); ?>
-    Cookieの値：<?php print($_COOKIE['save_message']); ?>
+    Cookieの値：<?php print($_COOKIE['save_message']); //cookieの値をとってくる　keyにはいっている値?>
 </pre>
 </main>
 </body>    

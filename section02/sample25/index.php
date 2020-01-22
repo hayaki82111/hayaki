@@ -1,6 +1,7 @@
 <?php
-session_start();
-$_SESSION['session_message'] = '値をセッションに保存しました';
+session_start();//まず書く
+$_SESSION['session_message'] = '値をセッションに保存しました';//$_SESSION['key']=保存したい内容
+//ブラウザが閉じられると記憶は終わり
 ?>
 <!doctype html>
 <html lang="ja">

@@ -1,6 +1,7 @@
-<?php
-$value = '変数に保存した値です';
-setcookie('save_message', 'Cookieに保存した値です', time() + 60 * 60 * 24 * 14);
+<?php//cookieは最初に書く
+$value = '変数に保存した値です';//表示している画面のみ
+//setcookie->cookieに保存　長く保存しすぎない
+setcookie('save_message', 'Cookieに保存した値です', time() + 60 * 60 * 24 * 14);//(cookieのkey,保存したい内容,いつまでか)
 ?>
 <!doctype html>
 <html lang="ja">

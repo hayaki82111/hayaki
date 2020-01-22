@@ -18,7 +18,7 @@
 <main>
 <h2>Practice</h2>
 <pre>
-    <?php
+    <?php//[]で複数受け取るとき配列として受け取るからasを使う
     foreach ($_POST['reserve'] as $reserve) {
         print(htmlspecialchars($reserve, ENT_QUOTES) . ' ');
     }

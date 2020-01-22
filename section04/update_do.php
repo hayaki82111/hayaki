@@ -21,7 +21,7 @@
     <?php
     require('dbconnect.php');
 
-    $statement = $db->prepare('UPDATE memos SET memo=? WHERE id=?');
+    $statement = $db->prepare('UPDATE memos SET memo=? WHERE id=?');//updateのsql発行,memoの値とidを受け取る
     $statement->execute(array($_POST['memo'], $_POST['id']));
 ?>
 メモの内容を変更しました

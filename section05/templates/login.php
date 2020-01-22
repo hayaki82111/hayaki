@@ -1,3 +1,41 @@
+<?php
+session_start();
+require('dbcontent.php');
+
+if($_COOKIE['email']!==''){
+  $email=$_COOKIE['email'];
+}
+
+if(!empty($_POST)){//フォームを送信したかどうかの確認
+  $email=$_POST['email'];
+  if($_POST['email']!==''&&$_POST['password']!==''){
+    $login=$db->prepare('SELECT * FROM members WHERE email=? AND password=?');
+    $login->execute(array(
+      $_POST['email'],
+      sha1($_POST['password'])//パスワードは暗号化していることを考慮する
+    ));
+    $member=$login->fetch();
+    if($member){//何か帰ってきていればtrue何も帰っていなければfalse
+      $_SESSION['id']=$member['id'];
+      $_SESSION['time']=time();//passwordはsessionで保存しない(
+
+      if($_POST['save']==='on'){//cookie
+        setcookie('email',$_POST['email'],time()+60*60*24*14);//$_SESSION['email]に$_POST['email']を入れている
+      }
+
+      header('Location:index.php');
+      exit();
+    }else{
+      $error['login']='failed';
+    }
+  }else{
+    $error['login']='brank';
+  }
+  
+}
+
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -21,7 +59,13 @@
       <dl>
         <dt>メールアドレス</dt>
         <dd>
-          <input type="text" name="email" size="35" maxlength="255" value="<?php echo htmlspecialchars($_POST['email']); ?>" />
+          <input type="text" name="email" size="35" maxlength="255" value="<?php echo htmlspecialchars($email);//cookieで保存できるようにしておく ?>" />
+          <?php if($error['login']==='brank'):?>
+				    <p class="error">入力してください</p>
+          <?php endif;?>
+          <?php if($error['login']==='failed'):?>
+				    <p class="error">正しく記入ください</p>
+          <?php endif;?>
         </dd>
         <dt>パスワード</dt>
         <dd>

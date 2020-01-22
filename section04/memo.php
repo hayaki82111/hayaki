@@ -20,14 +20,14 @@
 <?php
 require('dbconnect.php');
 
-$id = $_REQUEST['id'];
-if (!is_numeric($id) || $id <= 0) {
+$id = $_REQUEST['id'];//urlのidを取得する
+if (!is_numeric($id) || $id <= 0) {//$idの安全性のため、is_numeric－＞数字かどうか
     print('1以上の数字で指定してください');
     exit();
 }
 
-$memos = $db->prepare('SELECT * FROM memos WHERE id=?');
-$memos->execute(array($id));
+$memos = $db->prepare('SELECT * FROM memos WHERE id=?');//queryメソッドは使わない方がいい
+$memos->execute(array($id));//idに値を入れている
 $memo = $memos->fetch();
 ?>
 <article>

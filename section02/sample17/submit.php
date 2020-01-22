@@ -17,8 +17,11 @@
 
 <main>
 <h2>Practice</h2>
-<pre>
-    お名前： <?php print(htmlspecialchars($_REQUEST['my_name'], ENT_QUOTES)); ?>
+<pre><!--htmlspecialchars(入れるもの,基本固定ENT_QUTOTES)攻撃を防ぐ-->
+<!--method=getの時_POSTはできない　urlは送信されない
+　　　$_REQUESTはpostもgetも受け取れる　getかpostわかっているときはそれに合わせる
+-->
+    お名前： <?php print(htmlspecialchars($_REQUEST['my_name'], ENT_QUOTES)); //name属性が入る?>
 </pre>
 </main>
 </body>    

@@ -20,10 +20,11 @@
 <pre>
     <?php
     require('dbconnect.php');
-
-    $statement = $db->prepare('INSERT INTO memos SET memo=?, created_at=NOW()');
-    $statement->bindParam(1, $_POST['memo']);
-    $statement->execute();
+//$statement = $db->exce('INSERT INTO memos SET memo="'.$_POST['memo'].'", created_at=NOW()');NOW()ー＞SQLデ実行できる
+//上の奴は危険、POSTのままだから
+    $statement = $db->prepare('INSERT INTO memos SET memo=?, created_at=NOW()');//
+    $statement->bindParam(1, $_POST['memo']);//１番目の？に$_POST['memo']を入れている
+    $statement->execute();//$statement->execute(arraw( $_POST['memo']));と書くこともできる（このままだとtry。。。catchも必要）、?に入れたい値を指定できる
     echo 'メッセージが登録されました';
 ?>
 </pre>

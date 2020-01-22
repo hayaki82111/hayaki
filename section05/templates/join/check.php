@@ -1,3 +1,27 @@
+<?php 
+ssession_start();
+require('../dbcontent.php');
+
+if(!isset($_SESSION['join'])){//check.phpから直接は入れないようにする
+	header('Location:index.php');
+	exit();
+}
+if(!empty($_POST)){
+$statement=$db->prepare('INSERT INTO members SET name=? , email=?, password=?,picture=?,created=NOW()');
+echo $statement->execute(array(
+	$_SESSION['join']['name'],
+	$_SESSION['join']['email'],
+	sha1($_SESSION['join']['password']),//暗号化
+	$_SESSION['join']['image']
+));
+unset($_SESSION['join']);//使い終わったらすぐ消す
+
+header('Location:thanks.php');
+exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -17,13 +41,15 @@
 <div id="content">
 <p>記入した内容を確認して、「登録する」ボタンをクリックしてください</p>
 <form action="" method="post">
-	<input type="hidden" name="action" value="submit" />
+	<input type="hidden" name="action" value="submit" /><!--フォームを送信したかの確認ができる-->
 	<dl>
 		<dt>ニックネーム</dt>
 		<dd>
+			<?php print(htmlspecialchars($_SESSION['join']['name'],ENT_QUOTES))?>
         </dd>
 		<dt>メールアドレス</dt>
 		<dd>
+		<?php print(htmlspecialchars($_SESSION['join']['email'],ENT_QUOTES))?>
         </dd>
 		<dt>パスワード</dt>
 		<dd>
@@ -31,8 +57,13 @@
 		</dd>
 		<dt>写真など</dt>
 		<dd>
+			<?php if($_SESSION['join']['image']!==''):?>
+				<img src="../member_picture/<?php print(htmlspecialchars  //画像のパスを通して表示
+				($_SESSION['join']['image'],ENT_QUOTES))?>" alt="">
+			<?php endif;?>
 		</dd>
 	</dl>
+	<!--書き直しよう-->
 	<div><a href="index.php?action=rewrite">&laquo;&nbsp;書き直す</a> | <input type="submit" value="登録する" /></div>
 </form>
 </div>
